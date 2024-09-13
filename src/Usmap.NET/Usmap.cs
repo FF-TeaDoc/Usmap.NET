@@ -119,7 +119,11 @@ public class Usmap
 					}
 					case EUsmapCompressionMethod.ZStandard:
 					{
-						throw new FileLoadException($"Unsupported .usmap compression: {(int)EUsmapCompressionMethod.ZStandard} (Zstandard)");
+						var decompressor = new Decompressor();
+						var result = decompressor.TryUnwrap(compressedSpan, uncompressedMemory.Span, out int bytesWritten);
+						if (!result) 
+							throw new FileLoadException($"Invalid ZStandard .usmap decompress result: {result} | {bytesWritten} / {uncompressedSize}");
+						break;
 					}
 					default:
 						throw new FileLoadException($"Invalid or unsupported .usmap compression: {(int)compressionMethod}");
