@@ -3,6 +3,7 @@ using System.IO.Compression;
 using System.Text;
 
 using GenericReader;
+using ZstdSharp;
 
 namespace UsmapDotNet;
 
